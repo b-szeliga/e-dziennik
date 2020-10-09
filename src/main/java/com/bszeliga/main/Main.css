@@ -1,3 +1,12 @@
 GridPane {
     -fx-background-color: #FFFBC2;
 }
+
+.mainTitleLabel {
+    -fx-font-smoothing-type: gray;
+    -fx-text-fill: #D496A7;
+    -fx-font-size: 85;
+    -fx-font-weight: bold;
+    -fx-smooth: true;
+    -fx-effect: dropshadow(gaussian, #5D576B, 0, 0.0, 0, 5);
+}
