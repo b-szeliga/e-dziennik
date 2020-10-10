@@ -43,6 +43,9 @@ public class MainController implements Initializable {
         // button clicked, check ID and Password in this method.
 
         // if check ID and Password are correct, change the login screen into main e-dziennik panel.
-        mainScreen.getChildren().setAll(guiEventHandler.getHomeWindow());
+        mainScreen.getChildren().setAll(guiEventHandler.getStudentWindow());
+        //mainScreen.getChildren().setAll(guiEventHandler.getParentWindow());
+        //mainScreen.getChildren().setAll(guiEventHandler.getTeacherWindow());
+        //mainScreen.getChildren().setAll(guiEventHandler.getHeadmasterWindow());
     }
 }

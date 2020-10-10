@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root prefHeight="400.0" prefWidth="600.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.121"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+    </rowConstraints>
+    <children>
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Panel Główny">
+                    <content>
+                        <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
+                                    <children>
+                                        <Label text="User has successfully logged in. This is temporary message."/>
+                                        <Label text="In this tab user will be able to logout, see his messages from teachers etc."/>
+                                        <Button mnemonicParsing="false" onAction="#logout" text="Wyloguj"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Oceny">
+                    <content>
+                        <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Oceny dzieci"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Plan Lekcji">
+                    <content>
+                        <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Plan lekcji dzieci"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Prace Domowe">
+                    <content>
+                        <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Prace domowe dzieci"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Kalendarz">
+                    <content>
+                        <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Kalendarz, w którym będą wyświetlane prace domowe, zapowiedziane kartkówki, klasówki etc."/>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Uwagi">
+                    <content>
+                        <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Ten tab może usunać/zmergować z panelem głównym?"/>
+                                        <Label text="Rodzic bedzie mogl zobaczyc uwagi swoich dzieci."/>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Opcje">
+                    <content>
+                        <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Opcje."/>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</fx:root>
