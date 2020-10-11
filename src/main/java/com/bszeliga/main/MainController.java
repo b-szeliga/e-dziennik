@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
+
 public class MainController implements Initializable {
     @FXML
     public GridPane mainScreen;
@@ -21,7 +23,7 @@ public class MainController implements Initializable {
     public VBox mainScreenMenu;
 
     @FXML
-    public TextField ipField;
+    public TextField idField;
 
     @FXML
     public PasswordField passwordField;
@@ -42,10 +44,23 @@ public class MainController implements Initializable {
     public void loginUser(ActionEvent actionEvent) {
         // button clicked, check ID and Password in this method.
 
+        // encrypting example REPLACE ASAP
+        // WIP: replace example with JDBC request
+
+        // password is encrypted when user registers (requires account verification!)
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        String encryptedPassword = passwordEncryptor.encryptPassword("admin"); // replace with password from registration
+
         // if check ID and Password are correct, change the login screen into main e-dziennik panel.
-        mainScreen.getChildren().setAll(guiEventHandler.getStudentWindow());
+        if (idField.getText().equals("admin") && passwordEncryptor.checkPassword(passwordField.getText(), encryptedPassword)) {
+            mainScreen.getChildren().setAll(guiEventHandler.getHeadmasterWindow());
+        } else { // this one is temporary until JDBC gets there
+            mainScreen.getChildren().setAll(guiEventHandler.getStudentWindow());
+        }
+
+
         //mainScreen.getChildren().setAll(guiEventHandler.getParentWindow());
         //mainScreen.getChildren().setAll(guiEventHandler.getTeacherWindow());
-        //mainScreen.getChildren().setAll(guiEventHandler.getHeadmasterWindow());
+
     }
 }
