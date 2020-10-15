@@ -39,7 +39,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','Deechi',3,'Admin School','UiCHL0hfQlxSgsDuysI2ui6NEFRsvcwa3AQQerqKPzhB9Uot/ZMe9m5YIBtby8GY');
+INSERT INTO `users` VALUES (1,'Admin','Deechi',3,'Admin School','UiCHL0hfQlxSgsDuysI2ui6NEFRsvcwa3AQQerqKPzhB9Uot/ZMe9m5YIBtby8GY'),(2,'Admin','Benzerka',3,'Admin School','UiCHL0hfQlxSgsDuysI2ui6NEFRsvcwa3AQQerqKPzhB9Uot/ZMe9m5YIBtby8GY');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
