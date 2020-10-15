@@ -1,0 +1,15 @@
+first:
+copy timezone_posix.sql to mysql\bin folder
+import szkola.sql
+
+then:
+cmd -> open as administrator
+cd PATH_TO_MYSQL\BIN_FOLDER
+mysqld
+open new cmd, go to the same folder
+mysql -u root -p mysql < timezone_posix.sql
+type the password
+in mysqld cmd:
+ctrl+c
+mysqld again
+everything then should work
