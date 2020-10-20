@@ -15,9 +15,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -79,13 +77,44 @@ public class SignUpWindow extends GridPane implements Initializable {
             String encryptedPassword = passwordEncryptor.encryptPassword(passwordField.getText()); // replace with password from registration
 
             final Connection conn = db.getConnection();
-            Statement stmt = conn.createStatement();
-            String sql = "INSERT INTO users (name, lastname, role, school, password, verified) VALUES (" + nameField.getText() + ", \"" + surnameField.getText() + "\", " + roleChoiceBox.getValue() + ", \"" + schoolField.getText() + "\", \"" + encryptedPassword + "\", false)";
+
+            String regName = nameField.getText();
+            String regSurname = surnameField.getText();
+            String regRole = roleChoiceBox.getValue();
+            int regRoleInt = 0;
+
+            switch(regRole){
+                case "Student":
+                    regRoleInt = 0;
+                    break;
+                case "Rodzic":
+                    regRoleInt = 1;
+                    break;
+                case "Nauczyciel":
+                    regRoleInt = 2;
+                    break;
+            }
+
+
+            String regSchool = schoolField.getText();
+
+            String sql = "INSERT INTO users (name, lastname, role, school, password, verified) VALUES (?, ?, ?, ?, ?, 0)";
+
+            PreparedStatement loginR = conn.prepareStatement(sql);
+
+            loginR.setString(1, regName);
+            loginR.setString(2, regSurname);
+            loginR.setInt(3, regRoleInt);
+            loginR.setString(4, regSchool);
+            loginR.setString(5, encryptedPassword);
+
+            loginR.executeUpdate();
+            System.out.println(loginR);
 
             // show alert telling user that his registration was completed. Show him his ID in IDField and in alert.
 
             //ResultSet rs = stmt.executeUpdate(sql);
-            stmt.executeUpdate(sql);
+            //stmt.executeUpdate(sql);
 //            if (Objects.nonNull(rs)) {
 //                ObservableList<TableRow> users = FXCollections.observableArrayList();
 //                while (rs.next()) {

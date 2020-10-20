@@ -30,7 +30,7 @@ CREATE TABLE `users` (
   `school` varchar(45) COLLATE utf8_polish_ci DEFAULT NULL,
   `password` varchar(90) COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci COMMENT='roles:  0 - student, 1 - parent, 2 - teacher, 3 - admin';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci COMMENT='roles:  0 - student, 1 - parent, 2 - teacher, 3 - admin';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-15 18:45:00
+-- Dump completed on 2020-10-15 23:46:13
