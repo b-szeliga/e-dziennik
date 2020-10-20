@@ -19,8 +19,6 @@ public class Database {
             this.connection = DriverManager.getConnection(url,user,pass);
             return true;
         }catch(SQLException se){
-            //Handle errors for JDBC
-            se.printStackTrace();
             return false;
         }catch(Exception e){
             //Handle errors for Class.forName

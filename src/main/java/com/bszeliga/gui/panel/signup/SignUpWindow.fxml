@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root alignment="CENTER" hgap="10.0" type="GridPane" vgap="10" xmlns="http://javafx.com/javafx/8.0.121"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="ALWAYS"/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <children>
+        <VBox alignment="CENTER" spacing="5.0">
+            <children>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="55.0" text="ID:"/>
+                        <TextField fx:id="idField"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="55.0" text="Hasło:"/>
+                        <PasswordField fx:id="passwordField"/>
+                    </children>
+                </HBox>
+                <Separator maxWidth="200.0">
+                    <VBox.margin>
+                        <Insets bottom="2.0" top="2.0"/>
+                    </VBox.margin>
+                </Separator>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="40.0" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="55.0" text="Imię"/>
+                        <TextField fx:id="nameField"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="100.0" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="55.0" text="Nazwisko"/>
+                        <TextField fx:id="surnameField"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="100.0" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="55.0" text="Szkoła"/>
+                        <TextField fx:id="schoolField"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="130.0" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="55.0" text="Rola"/>
+                        <ChoiceBox fx:id="roleChoiceBox" prefWidth="150.0"/>
+                    </children>
+                </HBox>
+                <Separator maxWidth="200.0">
+                    <padding>
+                        <Insets bottom="2.0" top="2.0"/>
+                    </padding>
+                </Separator>
+                <HBox alignment="CENTER" spacing="50.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#register" text="Zarejestruj się"/>
+                        <Button mnemonicParsing="false" onAction="#goBack" text="Cofnij"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</fx:root>

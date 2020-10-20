@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
         root.getStylesheets().add(getClass().getResource("Main.css").toExternalForm());
         primaryStage.setTitle("e-Dziennik");
@@ -18,7 +18,6 @@ public class Main extends Application {
         primaryStage.setMinHeight(500);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
