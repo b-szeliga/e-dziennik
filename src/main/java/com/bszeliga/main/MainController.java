@@ -80,7 +80,7 @@ public class MainController implements Initializable {
         guiEventHandler.getSignUpWindow().sendDatabase(db);
     }
 
-    public void loginUser(ActionEvent actionEvent) throws SQLException {
+    public void loginUser(ActionEvent actionEvent){
         // cursor should change to loading cursor
         mainScreen.setCursor(Cursor.WAIT);
 
@@ -101,13 +101,16 @@ public class MainController implements Initializable {
                     if (Objects.isNull(idField.getText()) || idField.getText().isEmpty() || Objects.isNull(passwordField.getText()) || passwordField.getText().isEmpty()) {
                         return -1;
                     } else {
-                        String sql = "SELECT id, password, role FROM users WHERE id = " + idField.getText();
+                        String sql = "SELECT id, password, role, verified FROM users WHERE id = " + idField.getText();
                         ResultSet rs = stmt.executeQuery(sql);
                         while (rs.next()) {
                             String id = rs.getString("id");
                             String pass = rs.getString("password");
                             int role = rs.getInt("role");
-                            if (idField.getText().equals(id) && passwordEncryptor.checkPassword(passwordField.getText(), pass)) {
+                            int verified = rs.getInt("verified");
+                            if (verified == 0) {
+                                return -4;
+                            } else if (idField.getText().equals(id) && passwordEncryptor.checkPassword(passwordField.getText(), pass)) {
                                 return role;
                             } else {
                                 // incorrect password
@@ -128,6 +131,10 @@ public class MainController implements Initializable {
             // change the screen according to returned role value
             if (loginTask.getValue() != null) {
                 switch (loginTask.getValue()) {
+                    case -4:
+                        System.out.println("User is not verified, awaiting administrator acceptance.");
+                        createAlert("A login error occured", "You are not verified, wait for verification.");
+                        break;
                     case -3:
                         System.out.println("Wrong password!");
                         createAlert("A login error occured", "Your password does not match!");

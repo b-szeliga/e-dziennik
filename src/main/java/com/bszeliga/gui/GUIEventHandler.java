@@ -6,12 +6,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+import java.sql.SQLException;
+
 @Getter
 public class GUIEventHandler {
     private PanelWindow panelWindow;
     private SignUpWindow signUpWindow;
 
-    public GUIEventHandler(GridPane mainScreen, VBox mainScreenMenu) {
+    public GUIEventHandler(GridPane mainScreen, VBox mainScreenMenu){
         panelWindow = new PanelWindow(mainScreen, mainScreenMenu);
         signUpWindow = new SignUpWindow(mainScreen, mainScreenMenu);
     }
