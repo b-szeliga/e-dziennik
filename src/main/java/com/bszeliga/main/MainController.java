@@ -69,8 +69,8 @@ public class MainController implements Initializable {
         // if check ID and Password are correct, change the login screen into main e-dziennik panel.
         final String HOST = "localhost";
         final String BASE = "szkola?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        final String USER = "guest";
-        final String PASS = "";
+        final String USER = "admin";
+        final String PASS = "admin";
 
         isDatabaseConnected = db.connect(HOST, BASE, USER, PASS);
 

@@ -1,6 +1,5 @@
-package com.bszeliga.gui.panel;
+package com.bszeliga.gui;
 
-import javafx.scene.control.Button;
 import lombok.Getter;
 
 @Getter

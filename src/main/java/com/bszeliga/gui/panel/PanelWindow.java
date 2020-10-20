@@ -1,5 +1,7 @@
 package com.bszeliga.gui.panel;
 
+import com.bszeliga.gui.AlertHandler;
+import com.bszeliga.gui.TableRow;
 import com.bszeliga.logic.ValidateTextField;
 import com.bszeliga.gui.database.Database;
 import javafx.collections.FXCollections;
@@ -9,12 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -26,6 +30,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -68,14 +74,34 @@ public class PanelWindow extends GridPane implements Initializable {
     private TableColumn<TableRow, String> schoolCol;
     @FXML
     private TableColumn<TableRow, String> verifiedCol;
-    @FXML
-    private TableColumn<TableRow, Button> verifyCol;
 
     @FXML
     private TextField idField;
 
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField lastnameField;
+    @FXML
+    private ChoiceBox<String> roleChoiceBox;
+    @FXML
+    private TextField schoolField;
+    @FXML
+    private RadioButton trueRadioButton;
+    @FXML
+    private RadioButton falseRadioButton;
+
     private Database db;
     private ValidateTextField validateTextField;
+    private ObservableList<TableRow> users;
+    private List<String> choiceBoxValues = new ArrayList<String>();
+
+    int id = 0;
+    String name = "";
+    String lastname = "";
+    String school = null;
+    int role = 0;
+    boolean isVerified = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,6 +110,21 @@ public class PanelWindow extends GridPane implements Initializable {
         idField.textProperty().addListener((observable, oldValue, newValue) -> {
             validateTextField.replaceLettersToNumbers(newValue);
         });
+
+        // group radiobuttons
+        final ToggleGroup group = new ToggleGroup();
+        trueRadioButton.setToggleGroup(group);
+        falseRadioButton.setToggleGroup(group);
+
+
+        // add values to choiceBoxValues
+        choiceBoxValues.add("Student");
+        choiceBoxValues.add("Rodzic");
+        choiceBoxValues.add("Nauczyciel");
+        choiceBoxValues.add("Admin");
+
+        // add values to roleChoiceBox
+        roleChoiceBox.setItems(FXCollections.observableArrayList(choiceBoxValues));
     }
 
     public PanelWindow(GridPane mainScreen, VBox mainScreenMenu) {
@@ -143,7 +184,7 @@ public class PanelWindow extends GridPane implements Initializable {
         ResultSet rs = stmt.executeQuery(sql);
 
         if (Objects.nonNull(rs)) {
-            ObservableList<TableRow> users = FXCollections.observableArrayList();
+            users = FXCollections.observableArrayList();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
@@ -186,8 +227,102 @@ public class PanelWindow extends GridPane implements Initializable {
         this.db = db;
     }
 
-    public void fetchID(ActionEvent actionEvent) {
-        System.out.println("Fetch id: " + idField.getText());
-        // TODO: display user
+    public void fetchID(ActionEvent actionEvent) throws SQLException {
+        // if idField is not a null and is not empty
+        boolean wasNotFound = true;
+        if (!Objects.isNull(idField.getText()) && !idField.getText().isEmpty()) {
+            System.out.println("Fetch id: " + idField.getText());
+
+            // refresh user list in TableView
+            refresh(new ActionEvent()); // not sure if that's the best practice... and then throw SQLException.
+
+            // if idField's number is higher than users size
+            if (Integer.parseInt(idField.getText()) > (users.size() + 1)) {
+                // wrong id provided.
+                System.out.println("Wrong ID provided.");
+                // show warning alert
+                AlertHandler alertHandler = new AlertHandler(Alert.AlertType.WARNING, "Wrong ID provided.");
+                alertHandler.showAndWait();
+                return;
+            }
+            for (int i = 0; i < users.size(); i++) {
+                id = users.get(i).getId(); // get id from every user in database
+                // check if id is equal to id in idField
+                if (id == Integer.parseInt(idField.getText())) {
+                    // it is equal, get all user info
+                    name = users.get(i).getName();
+                    lastname = users.get(i).getLastname();
+                    school = users.get(i).getSchool();
+                    role = users.get(i).getRole();
+                    isVerified = users.get(i).isVerified();
+                    // update all controls
+                    nameField.setText(name);
+                    lastnameField.setText(lastname);
+                    schoolField.setText(school);
+                    switch (role) {
+                        case 0:
+                            roleChoiceBox.setValue(choiceBoxValues.get(0));
+                            break;
+                        case 1:
+                            roleChoiceBox.setValue(choiceBoxValues.get(1));
+                            break;
+                        case 2:
+                            roleChoiceBox.setValue(choiceBoxValues.get(2));
+                            break;
+                        case 3:
+                            roleChoiceBox.setValue(choiceBoxValues.get(3));
+                            break;
+                    }
+                    trueRadioButton.setSelected(isVerified);
+                    falseRadioButton.setSelected(!isVerified);
+                    wasNotFound = false;
+                    break;
+                }
+            }
+            if (wasNotFound) {
+                // no one with that id was found.
+                System.out.println("No one with that id was found.");
+                // show warning alert
+                AlertHandler alertHandler = new AlertHandler(Alert.AlertType.WARNING, "No one was found.");
+                alertHandler.showAndWait();
+            }
+        }
+    }
+
+    public void update(ActionEvent actionEvent) throws SQLException {
+        if (id != 0) {
+            System.out.println("Updating user: " + nameField.getText() + " " + lastnameField.getText());
+
+            final Connection conn = db.getConnection();
+            Statement stmt = conn.createStatement();
+
+            int verifiedAsInt;
+            if (trueRadioButton.isSelected()) {
+                verifiedAsInt = 1;
+            } else {
+                verifiedAsInt = 0;
+            }
+
+            int choiceBoxValueAsInt = 0;
+            switch (roleChoiceBox.getValue()) {
+                case "Student":
+                    choiceBoxValueAsInt = 0;
+                    break;
+                case "Rodzic":
+                    choiceBoxValueAsInt = 1;
+                    break;
+                case "Nauczyciel":
+                    choiceBoxValueAsInt = 2;
+                    break;
+                case "Admin":
+                    choiceBoxValueAsInt = 3;
+                    break;
+            }
+
+            String sql = "UPDATE users SET name = \"" + nameField.getText() + "\", lastname = \"" + lastnameField.getText() + "\", school = \"" + schoolField.getText() + "\", role = \"" + choiceBoxValueAsInt + "\", verified = \"" + verifiedAsInt + "\" WHERE id = \"" + id + "\"";
+            System.out.println(sql);
+            stmt.executeUpdate(sql);
+        }
+        refresh(new ActionEvent());
     }
 }
