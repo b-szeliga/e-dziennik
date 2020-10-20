@@ -15,7 +15,7 @@
     <children>
         <VBox alignment="CENTER" spacing="5.0">
             <children>
-                <HBox alignment="CENTER" spacing="10.0">
+                <HBox alignment="CENTER" disable="true" spacing="10.0">
                     <children>
                         <Label alignment="CENTER_RIGHT" minWidth="55.0" text="ID:"/>
                         <TextField fx:id="idField"/>

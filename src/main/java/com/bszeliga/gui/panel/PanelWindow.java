@@ -1,29 +1,35 @@
 package com.bszeliga.gui.panel;
 
-import com.bszeliga.main.Database;
+import com.bszeliga.logic.ValidateTextField;
+import com.bszeliga.gui.database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class PanelWindow extends GridPane {
+public class PanelWindow extends GridPane implements Initializable {
     private final GridPane mainScreen;
     private final VBox mainScreenMenu;
     @Getter
@@ -61,9 +67,24 @@ public class PanelWindow extends GridPane {
     @FXML
     private TableColumn<TableRow, String> schoolCol;
     @FXML
-    private TableColumn<TableRow, String> isRegisteredCol;
+    private TableColumn<TableRow, String> verifiedCol;
+    @FXML
+    private TableColumn<TableRow, Button> verifyCol;
+
+    @FXML
+    private TextField idField;
 
     private Database db;
+    private ValidateTextField validateTextField;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // check idField regex, only numbers allowed.
+        validateTextField = new ValidateTextField(idField);
+        idField.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateTextField.replaceLettersToNumbers(newValue);
+        });
+    }
 
     public PanelWindow(GridPane mainScreen, VBox mainScreenMenu) {
         this.mainScreen = mainScreen;
@@ -118,7 +139,7 @@ public class PanelWindow extends GridPane {
         final Connection conn = db.getConnection();
         Statement stmt = conn.createStatement();
 
-        String sql = "SELECT id, name, lastname, role, school FROM users";
+        String sql = "SELECT id, name, lastname, role, school, verified FROM users";
         ResultSet rs = stmt.executeQuery(sql);
 
         if (Objects.nonNull(rs)) {
@@ -129,7 +150,8 @@ public class PanelWindow extends GridPane {
                 String lastname = rs.getString("lastname");
                 int role = rs.getInt("role");
                 String school = rs.getString("school");
-                users.add(new TableRow(id, name, lastname, role, school));
+                boolean verified = rs.getBoolean("verified");
+                users.add(new TableRow(id, name, lastname, role, school, verified));
             }
             idCol.setCellValueFactory(
                     new PropertyValueFactory<TableRow, String>("id")
@@ -146,6 +168,9 @@ public class PanelWindow extends GridPane {
             schoolCol.setCellValueFactory(
                     new PropertyValueFactory<TableRow, String>("school")
             );
+            verifiedCol.setCellValueFactory(
+                    new PropertyValueFactory<TableRow, String>("verified")
+            );
             usersTableView.setItems(users);
         } else {
             // handle situation where database is empty or there was an error.
@@ -159,5 +184,10 @@ public class PanelWindow extends GridPane {
 
     public void sendDatabase(Database db) {
         this.db = db;
+    }
+
+    public void fetchID(ActionEvent actionEvent) {
+        System.out.println("Fetch id: " + idField.getText());
+        // TODO: display user
     }
 }

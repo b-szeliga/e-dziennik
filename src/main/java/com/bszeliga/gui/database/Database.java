@@ -1,4 +1,4 @@
-package com.bszeliga.main;
+package com.bszeliga.gui.database;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 

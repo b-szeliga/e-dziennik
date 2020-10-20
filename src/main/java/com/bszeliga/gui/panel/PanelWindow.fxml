@@ -4,12 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="400.0" prefWidth="600.0" type="GridPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="400.0" prefWidth="600.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.121"
+         xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
-        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+        <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
     </rowConstraints>
     <children>
         <TabPane fx:id="mainLoggedInPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
@@ -20,16 +21,16 @@
                             <children>
                                 <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0">
                                     <children>
-                                        <Label text="User has successfully logged in. This is temporary message." />
-                                        <Button mnemonicParsing="false" onAction="#logout" text="Wyloguj" />
+                                        <Label text="User has successfully logged in. This is temporary message."/>
+                                        <Button mnemonicParsing="false" onAction="#logout" text="Wyloguj"/>
                                     </children>
                                 </VBox>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
@@ -38,41 +39,149 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
-                     <children>
-                        <VBox>
-                           <children>
-                              <TableView fx:id="usersTableView" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
-                                <columns>
-                                  <TableColumn fx:id="idCol" prefWidth="75.0" text="id" />
-                                  <TableColumn fx:id="nameCol" prefWidth="75.0" text="name" />
-                                    <TableColumn fx:id="lastnameCol" prefWidth="75.0" text="lastname" />
-                                    <TableColumn fx:id="roleCol" prefWidth="75.0" text="role" />
-                                    <TableColumn fx:id="schoolCol" prefWidth="75.0" text="school" />
-                                    <TableColumn fx:id="isRegisteredCol" prefWidth="75.0" text="isRegistered" />
-                                </columns>
-                              </TableView>
-                              <HBox>
-                                 <children>
-                                    <Button mnemonicParsing="false" text="Update">
-                                       <HBox.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#refresh" text="Refresh">
-                                       <HBox.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
+                            <children>
+                                <VBox>
+                                    <children>
+                                        <TableView fx:id="usersTableView" prefHeight="200.0" prefWidth="600.0"
+                                                   tableMenuButtonVisible="true">
+                                            <columns>
+                                                <TableColumn fx:id="idCol" prefWidth="75.0" text="id"/>
+                                                <TableColumn fx:id="nameCol" prefWidth="75.0" text="name"/>
+                                                <TableColumn fx:id="lastnameCol" prefWidth="75.0" text="lastname"/>
+                                                <TableColumn fx:id="roleCol" prefWidth="75.0" text="role"/>
+                                                <TableColumn fx:id="schoolCol" prefWidth="75.0" text="school"/>
+                                                <TableColumn fx:id="verifiedCol" prefWidth="75.0" text="verified"/>
+                                            </columns>
+                                        </TableView>
+                                        <BorderPane>
+                                            <right>
+                                                <Button mnemonicParsing="false" onAction="#refresh" text="Refresh"
+                                                        BorderPane.alignment="CENTER">
+                                                    <BorderPane.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                    </BorderPane.margin>
+                                                </Button>
+                                            </right>
+                                            <left>
+                                                <HBox alignment="BASELINE_LEFT" spacing="5.0"
+                                                      BorderPane.alignment="CENTER">
+                                                    <children>
+                                                        <Label text="ID:"/>
+                                                        <TextField fx:id="idField" maxWidth="35.0"/>
+                                                        <Button mnemonicParsing="false" onAction="#fetchID"
+                                                                text="Fetch">
+                                                            <HBox.margin>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                            </HBox.margin>
+                                                        </Button>
+                                                    </children>
+                                                    <BorderPane.margin>
+                                                        <Insets left="5.0"/>
+                                                    </BorderPane.margin>
+                                                </HBox>
+                                            </left>
+                                        </BorderPane>
+                                        <HBox>
+                                            <children>
+                                                <VBox>
+                                                    <children>
+                                                        <HBox spacing="5.0">
+                                                            <children>
+                                                                <Label alignment="CENTER_RIGHT" minWidth="55.0"
+                                                                       text="name:"/>
+                                                                <TextField maxWidth="100.0"/>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                            </padding>
+                                                        </HBox>
+                                                        <HBox spacing="5.0">
+                                                            <children>
+                                                                <Label alignment="CENTER_RIGHT" minWidth="55.0"
+                                                                       text="lastname:"/>
+                                                                <TextField maxWidth="100.0"/>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                            </padding>
+                                                        </HBox>
+                                                    </children>
+                                                    <HBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                    </HBox.margin>
+                                                </VBox>
+                                                <VBox>
+                                                    <children>
+                                                        <HBox spacing="5.0">
+                                                            <children>
+                                                                <Label alignment="CENTER_RIGHT" minWidth="40.0"
+                                                                       text="role:"/>
+                                                                <ChoiceBox maxWidth="100.0" prefWidth="100.0"/>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                            </padding>
+                                                        </HBox>
+                                                        <HBox spacing="5.0">
+                                                            <children>
+                                                                <Label alignment="CENTER_RIGHT" minWidth="40.0"
+                                                                       text="school:"/>
+                                                                <TextField maxWidth="100.0"/>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                            </padding>
+                                                        </HBox>
+                                                    </children>
+                                                    <HBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                    </HBox.margin>
+                                                </VBox>
+                                                <HBox alignment="CENTER" spacing="20.0">
+                                                    <children>
+                                                        <HBox alignment="CENTER" spacing="5.0">
+                                                            <children>
+                                                                <Label alignment="CENTER_RIGHT" minWidth="45.0"
+                                                                       text="verified:"/>
+                                                                <VBox alignment="CENTER_LEFT" minWidth="-Infinity"
+                                                                      spacing="3.0">
+                                                                    <children>
+                                                                        <RadioButton mnemonicParsing="false"
+                                                                                     text="true">
+                                                                            <toggleGroup>
+                                                                                <ToggleGroup fx:id="verified"/>
+                                                                            </toggleGroup>
+                                                                        </RadioButton>
+                                                                        <RadioButton mnemonicParsing="false"
+                                                                                     text="false"
+                                                                                     toggleGroup="$verified"/>
+                                                                    </children>
+                                                                </VBox>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                            </padding>
+                                                        </HBox>
+                                                        <Button minWidth="-Infinity" mnemonicParsing="false"
+                                                                text="Update"/>
+                                                    </children>
+                                                    <HBox.margin>
+                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                    </HBox.margin>
+                                                </HBox>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets/>
+                                            </VBox.margin>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
                         </GridPane>
                     </content>
                 </Tab>
@@ -80,13 +189,13 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0" />
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0"/>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
@@ -95,13 +204,13 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0" />
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0"/>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
@@ -110,13 +219,13 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0" />
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0"/>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
@@ -125,13 +234,13 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0" />
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0"/>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
@@ -140,13 +249,13 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0" />
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0"/>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
@@ -155,13 +264,13 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0" />
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0"/>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>
@@ -170,13 +279,13 @@
                     <content>
                         <GridPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0" />
+                                <VBox alignment="CENTER" prefWidth="481.0" spacing="10.0"/>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+                                <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
                             </rowConstraints>
                         </GridPane>
                     </content>

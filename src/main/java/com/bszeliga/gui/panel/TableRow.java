@@ -1,5 +1,6 @@
 package com.bszeliga.gui.panel;
 
+import javafx.scene.control.Button;
 import lombok.Getter;
 
 @Getter
@@ -9,12 +10,14 @@ public class TableRow {
     private String lastname;
     private int role;
     private String school;
+    private boolean verified;
 
-    public TableRow(int id, String name, String lastname, int role, String School) {
+    public TableRow(int id, String name, String lastname, int role, String school, boolean verified) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.role = role;
-        school = School;
+        this.school = school;
+        this.verified = verified;
     }
 }

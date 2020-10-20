@@ -1,5 +1,6 @@
 package com.bszeliga.gui.panel.signup;
 
+import com.bszeliga.gui.database.Database;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,9 +11,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SignUpWindow extends GridPane implements Initializable {
@@ -37,6 +43,8 @@ public class SignUpWindow extends GridPane implements Initializable {
     @FXML
     public ChoiceBox<String> roleChoiceBox;
 
+    private Database db;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         roleChoiceBox.setItems(FXCollections.observableArrayList(
@@ -58,12 +66,55 @@ public class SignUpWindow extends GridPane implements Initializable {
         }
     }
 
-    public void register(ActionEvent actionEvent) {
+    public void register(ActionEvent actionEvent) throws SQLException {
+        System.out.println("Adding user to database");
+        if (Objects.nonNull(db)) {
+            System.out.println("Database is not null!");
 
+            // do checks, make sure the fields aren't empty. TODO: regex in the future
+
+
+            // encrypt password
+            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+            String encryptedPassword = passwordEncryptor.encryptPassword(passwordField.getText()); // replace with password from registration
+
+            final Connection conn = db.getConnection();
+            Statement stmt = conn.createStatement();
+            String sql = "INSERT INTO users (name, lastname, role, school, password, verified) VALUES (" + nameField.getText() + ", \"" + surnameField.getText() + "\", " + roleChoiceBox.getValue() + ", \"" + schoolField.getText() + "\", \"" + encryptedPassword + "\", false)";
+
+            // show alert telling user that his registration was completed. Show him his ID in IDField and in alert.
+
+            //ResultSet rs = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
+//            if (Objects.nonNull(rs)) {
+//                ObservableList<TableRow> users = FXCollections.observableArrayList();
+//                while (rs.next()) {
+//                    int id = rs.getInt("id");
+//                    String name = rs.getString("name");
+//                    String lastname = rs.getString("lastname");
+//                    int role = rs.getInt("role");
+//                    String school = rs.getString("school");
+//                    users.add(new TableRow(id, name, lastname, role, school));
+//                }
+//
+//                // show user what ID they got!
+//            } else {
+//                // handle situation where database is empty or there was an error.
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Error");
+//                alert.setHeaderText("A database error occurred.");
+//                alert.setContentText("Database is empty!\nUnknown error occured.");
+//                alert.showAndWait();
+//            }
+        }
     }
 
     public void goBack(ActionEvent actionEvent) {
         // change the window into Login window.
         mainScreen.getChildren().setAll(mainScreenMenu);
+    }
+
+    public void sendDatabase(Database db) {
+        this.db = db;
     }
 }
