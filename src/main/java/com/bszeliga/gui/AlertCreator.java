@@ -2,10 +2,12 @@ package com.bszeliga.gui;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
+import lombok.Getter;
 
-public class AlertHandler {
-    private Alert alert;
-    public AlertHandler(Alert.AlertType alertType) {
+public class AlertCreator {
+    @Getter
+    private final Alert alert;
+    public AlertCreator(Alert.AlertType alertType) {
         alert = new Alert(alertType);
         switch (alertType) {
             case NONE:
@@ -26,12 +28,12 @@ public class AlertHandler {
         }
     }
 
-    public AlertHandler(Alert.AlertType alertType, String contentText) {
+    public AlertCreator(Alert.AlertType alertType, String contentText) {
         this(alertType);
         setContentText(contentText);
     }
 
-    public AlertHandler(Alert.AlertType alertType, String headerText, String contentText) {
+    public AlertCreator(Alert.AlertType alertType, String headerText, String contentText) {
         this(alertType);
         setHeaderText(headerText);
         setContentText(contentText);
@@ -47,13 +49,5 @@ public class AlertHandler {
 
     public void setContentText(String contentText) {
         alert.setContentText(contentText);
-    }
-
-    public void show() {
-        alert.show();
-    }
-
-    public void showAndWait() {
-        alert.showAndWait();
     }
 }

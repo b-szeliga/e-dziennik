@@ -67,8 +67,6 @@ public class SignUpWindow extends GridPane implements Initializable {
     public void register(ActionEvent actionEvent) throws SQLException {
         System.out.println("Adding user to database");
         if (Objects.nonNull(db)) {
-            System.out.println("Database is not null!");
-
             // do checks, make sure the fields aren't empty. TODO: regex in the future
 
 

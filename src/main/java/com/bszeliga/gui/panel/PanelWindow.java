@@ -1,6 +1,6 @@
 package com.bszeliga.gui.panel;
 
-import com.bszeliga.gui.AlertHandler;
+import com.bszeliga.gui.AlertCreator;
 import com.bszeliga.gui.TableRow;
 import com.bszeliga.logic.ValidateTextField;
 import com.bszeliga.gui.database.Database;
@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
@@ -33,6 +34,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PanelWindow extends GridPane implements Initializable {
@@ -236,25 +238,30 @@ public class PanelWindow extends GridPane implements Initializable {
             // refresh user list in TableView
             refresh(new ActionEvent()); // not sure if that's the best practice... and then throw SQLException.
 
-            // if idField's number is higher than users size
-            if (Integer.parseInt(idField.getText()) > (users.size() + 1)) {
+            // figure out the biggest id size from users
+            int biggestId = 0;
+            for (TableRow user : users) {
+                biggestId = Math.max(biggestId, user.getId());
+            }
+            // if idField's number is higher than the users biggest id size
+            if (Integer.parseInt(idField.getText()) > biggestId) {
                 // wrong id provided.
                 System.out.println("Wrong ID provided.");
                 // show warning alert
-                AlertHandler alertHandler = new AlertHandler(Alert.AlertType.WARNING, "Wrong ID provided.");
-                alertHandler.showAndWait();
+                AlertCreator alertCreator = new AlertCreator(Alert.AlertType.WARNING, "Wrong ID provided.");
+                alertCreator.getAlert().showAndWait();
                 return;
             }
-            for (int i = 0; i < users.size(); i++) {
-                id = users.get(i).getId(); // get id from every user in database
+            for (TableRow user : users) {
+                id = user.getId(); // get id from every user in database
                 // check if id is equal to id in idField
                 if (id == Integer.parseInt(idField.getText())) {
                     // it is equal, get all user info
-                    name = users.get(i).getName();
-                    lastname = users.get(i).getLastname();
-                    school = users.get(i).getSchool();
-                    role = users.get(i).getRole();
-                    isVerified = users.get(i).isVerified();
+                    name = user.getName();
+                    lastname = user.getLastname();
+                    school = user.getSchool();
+                    role = user.getRole();
+                    isVerified = user.isVerified();
                     // update all controls
                     nameField.setText(name);
                     lastnameField.setText(lastname);
@@ -283,14 +290,15 @@ public class PanelWindow extends GridPane implements Initializable {
                 // no one with that id was found.
                 System.out.println("No one with that id was found.");
                 // show warning alert
-                AlertHandler alertHandler = new AlertHandler(Alert.AlertType.WARNING, "No one was found.");
-                alertHandler.showAndWait();
+                AlertCreator alertCreator = new AlertCreator(Alert.AlertType.WARNING, "No one was found.");
+                alertCreator.getAlert().showAndWait();
             }
         }
     }
 
     public void update(ActionEvent actionEvent) throws SQLException {
         if (id != 0) {
+            if (isUserMissingFromDatabase()) return;
             System.out.println("Updating user: " + nameField.getText() + " " + lastnameField.getText());
 
             final Connection conn = db.getConnection();
@@ -324,5 +332,40 @@ public class PanelWindow extends GridPane implements Initializable {
             stmt.executeUpdate(sql);
         }
         refresh(new ActionEvent());
+    }
+
+    private boolean isUserMissingFromDatabase() {
+        boolean isNotFound = true;
+        for (TableRow user : users) {
+            if (user.getId() == id) {
+                isNotFound = false;
+                break;
+            }
+        }
+        if (isNotFound) {
+            AlertCreator alert = new AlertCreator(Alert.AlertType.WARNING, "Missing user.", "Could not find user with id: " + id + " in database.");
+            alert.getAlert().showAndWait();
+            return true;
+        }
+        return false;
+    }
+
+    public void delete(ActionEvent actionEvent) throws SQLException {
+        if (id != 0) {
+            if (isUserMissingFromDatabase()) return;
+            System.out.println("Deleting user with id: " + id);
+            final Connection conn = db.getConnection();
+            Statement stmt = conn.createStatement();
+            String sql = "DELETE FROM users WHERE id = " + id;
+            AlertCreator alert = new AlertCreator(Alert.AlertType.CONFIRMATION, "You are about to delete user with id: " + id, "Do you want to continue?");
+            Optional<ButtonType> alertResult = alert.getAlert().showAndWait();
+            if (alertResult.isPresent()) {
+                if (alertResult.get() == ButtonType.OK) {
+                    stmt.executeUpdate(sql);
+                    users.removeIf(user -> user.getId() == id);
+                    refresh(new ActionEvent());
+                }
+            }
+        }
     }
 }
